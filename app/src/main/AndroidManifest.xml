@@ -3,6 +3,7 @@
     package="com.example.disampleapp">
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
+        android:name="com.example.disampleapp.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -10,10 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DISampleApp">
         <activity
-            android:name=".screens.DetailsActivity"
+            android:name=".screens.questionDetails.QuestionDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".screens.MainActivity"
+            android:name=".screens.questionsList.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
