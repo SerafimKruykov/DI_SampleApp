@@ -1,14 +1,19 @@
 package com.example.disampleapp
 
 import android.app.Application
-import com.example.disampleapp.common.composition.AppCompositionRoot
+import com.example.disampleapp.dependencyInjection.app.AppModule
+
+import com.example.disampleapp.dependencyInjection.app.DaggerAppComponent
 
 class MyApplication: Application() {
 
-    public lateinit var appCompositionRoot: AppCompositionRoot
+    val appComponent by lazy {
+        DaggerAppComponent.builder()
+            .appModule(AppModule(this))
+            .build()
+    }
 
     override fun onCreate() {
-        appCompositionRoot = AppCompositionRoot(this)
         super.onCreate()
     }
 

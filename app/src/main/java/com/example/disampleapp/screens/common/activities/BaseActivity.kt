@@ -2,18 +2,28 @@ package com.example.disampleapp.screens.common.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import com.example.disampleapp.MyApplication
-import com.example.disampleapp.common.composition.ActivityCompositionRoot
-import com.example.disampleapp.common.composition.PresentationCompositionRoot
+import com.example.disampleapp.dependencyInjection.activity.ActivityModule
+import com.example.disampleapp.dependencyInjection.presentation.PresentationModule
+
+
+import com.example.disampleapp.dependencyInjection.activity.DaggerActivityComponent
+import com.example.disampleapp.dependencyInjection.presentation.DaggerPresentationComponent
 
 open class BaseActivity: AppCompatActivity() {
 
-    private val appCompositionRoot get() = (application as MyApplication).appCompositionRoot
+    private val appComponent get() = (application as MyApplication).appComponent
 
-    val activityCompositionRoot by lazy {
-        ActivityCompositionRoot(this, appCompositionRoot)
+    val activityComponent by lazy {
+        DaggerActivityComponent.builder()
+            .activityModule(ActivityModule(this, appComponent))
+            .build()
     }
 
-    protected val compositionRoot by lazy {
-        PresentationCompositionRoot(activityCompositionRoot)
+    private val presentationComponent by lazy {
+        DaggerPresentationComponent.builder()
+            .presentationModule(PresentationModule(activityComponent))
+            .build()
     }
+
+    protected val injector get() = presentationComponent
 }
